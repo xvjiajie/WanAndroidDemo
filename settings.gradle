@@ -1,2 +1,4 @@
+include ':rxeasyhttp'
+include ':banner'
 include ':app'
 rootProject.name = "WanAndroidDemo"

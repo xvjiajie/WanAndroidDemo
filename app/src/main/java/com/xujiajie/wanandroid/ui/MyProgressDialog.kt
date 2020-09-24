@@ -14,7 +14,6 @@ class MyProgressDialog(context: Context?) : ProgressDialog(context) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_progress_dialog)
     }
-
     init {
         setCancelable(true)
         setCanceledOnTouchOutside(false)

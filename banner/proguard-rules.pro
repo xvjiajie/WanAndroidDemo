@@ -138,6 +138,6 @@
     public boolean *(android.webkit.WebView, java.lang.String);
 }
 
-
+ -keep class * implements java.io.Serializable {*;}
 #---------------------------------------------------------------------------------------------------
 -keep class androidx.viewpager2.**.** { *;}

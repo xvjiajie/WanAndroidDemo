@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+
+version = "2.0.7"
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 200007
+        versionName version
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+        }
+        pre {
+        }
+        inspect {
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    compileOnly("androidx.viewpager2:viewpager2:1.0.0")
+}
+
+
+
