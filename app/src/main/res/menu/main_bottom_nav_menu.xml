@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_page"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home_page" />
+    <item
+        android:id="@+id/home_system"
+        android:icon="@drawable/ic_baseline_line_style_24"
+        android:title="@string/home_system" />
+    <item
+        android:id="@+id/home_project"
+        android:icon="@drawable/ic_baseline_toys_24"
+        android:title="@string/home_project" />
+    <item
+        android:id="@+id/home_plaza"
+        android:icon="@drawable/ic_baseline_nature_people_24"
+        android:title="@string/home_plaza" />
+
+    <item
+        android:id="@+id/home_mine"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/home_mine" />
+</menu>

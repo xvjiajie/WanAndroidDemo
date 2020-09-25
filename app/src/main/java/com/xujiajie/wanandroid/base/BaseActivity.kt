@@ -5,14 +5,20 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.gyf.immersionbar.ImmersionBar
+import com.gyf.immersionbar.ktx.immersionBar
 import com.xujiajie.wanandroid.R
+import com.xujiajie.wanandroid.ext.getAppTheme
+import com.xujiajie.wanandroid.ext.resourceId
 import com.xujiajie.wanandroid.ui.MyProgressDialog
 import com.xujiajie.wanandroid.view.GrayFrameLayout
 
@@ -20,9 +26,28 @@ import com.xujiajie.wanandroid.view.GrayFrameLayout
  * 创建日期 2020/9/24
  * 描述：
  */
-open class BaseActivity : AppCompatActivity() {
+open abstract class BaseActivity : AppCompatActivity() {
     val TAG: String = this.javaClass.simpleName
+    protected abstract fun getContentLayout(): Int
+    protected abstract fun initView(savedInstanceState: Bundle?)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(getAppTheme())
+        super.onCreate(savedInstanceState)
+        mContext = this
+
+    }
+
+    open fun initImmersionBar() {
+        immersionBar {
+            statusBarColor(
+                TypedValue().resourceId(
+                    R.attr.colorPrimary,
+                    theme
+                )
+            ).autoStatusBarDarkModeEnable(true, 0.1f)
+        }
+    }
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
         if ("FrameLayout" == name) {
             val count = attrs.attributeCount
@@ -63,24 +88,17 @@ open class BaseActivity : AppCompatActivity() {
         return res
     }
 
-    protected open fun showProgressDialog() {
-        showProgressDialog("正在加载...")
-    }
-
-    protected open fun showProgressDialog(msg: String?) {
-        if (msg == null || msg.isEmpty()) {
-            showProgressDialog()
-        }else{
-            mProgressDialog.window?.apply {
-                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val lp = attributes
-                lp.alpha = 0.9f // 透明度
-                lp.dimAmount = 0.0f // 黑暗度
-                lp.gravity = Gravity.CENTER
-                attributes = lp
-                if (!mProgressDialog.isShowing){
-                    mProgressDialog.show()
-                }
+    protected open fun showProgressDialog(msg: String = "") {
+        mProgressDialog.setMessage(if (msg == null || msg.isEmpty()) "加载中..." else msg)
+        mProgressDialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val lp = attributes
+            lp.alpha = 0.9f // 透明度
+            lp.dimAmount = 0.0f // 黑暗度
+            lp.gravity = Gravity.CENTER
+            attributes = lp
+            if (!mProgressDialog.isShowing){
+                mProgressDialog.show()
             }
         }
     }
@@ -105,6 +123,8 @@ open class BaseActivity : AppCompatActivity() {
         mToolbar = toolbar
         mTvTitle = title
         setSupportActionBar(mToolbar)
+        ImmersionBar.with(this).titleBar(mToolbar)
+            .init()
         //设置actionBar的标题是否显示，对应ActionBar.DISPLAY_SHOW_TITLE。
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         setBackArrow()
@@ -112,14 +132,14 @@ open class BaseActivity : AppCompatActivity() {
 
     protected open fun setTitleString(titles: String?) {
         mTvTitle?.let {
-            it.text = title
+            it.text = titles
             it.visibility = View.VISIBLE
         }
     }
 
-    protected open fun setTitleString(title: CharSequence?) {
+    protected open fun setTitleString(titles: CharSequence?) {
         mTvTitle?.let {
-            it.text = title
+            it.text = titles
             it.visibility = View.VISIBLE
         }
     }

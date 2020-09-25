@@ -1,9 +1,12 @@
 package com.xujiajie.wanandroid.base
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
+import android.util.Log
+import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
+import com.xujiajie.wanandroid.utils.ToastUtils
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -11,16 +14,16 @@ import java.lang.reflect.Type
  * 创建日期 2020/9/24
  * 描述：
  */
-open abstract class BaseMActivity<VM : BaseViewModel, VDB : ViewDataBinding> :BaseDActivity<VDB>() {
-    protected var mViewModel: VM? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
+open abstract class BaseMFragment<VM : BaseViewModel, VDB : ViewDataBinding>:BaseDFragment<VDB>(){
+    protected lateinit var mViewModel: VM
+    private fun isViewModel() = ::mViewModel.isInitialized
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         createViewModel()
-        super.onCreate(savedInstanceState)
     }
 
     open fun createViewModel() {
-        if (mViewModel == null) {
-//            val modelClass: Class<*>
+        if (!isViewModel()) {
             val type: Type? = this.javaClass.getGenericSuperclass()
             val modelClass = if (type is ParameterizedType) {
                 type.actualTypeArguments[0]

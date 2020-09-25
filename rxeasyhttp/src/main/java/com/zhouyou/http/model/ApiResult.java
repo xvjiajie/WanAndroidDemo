@@ -18,6 +18,8 @@ package com.zhouyou.http.model;
 
 import android.util.Log;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * <p>描述：提供的默认的标注返回api</p>
  * 作者： zhouyou<br>
@@ -25,7 +27,9 @@ import android.util.Log;
  * 版本： v1.0<br>
  */
 public class ApiResult<T> {
+    @SerializedName("errorCode")
     private String code;
+    @SerializedName("errorMsg")
     private String msg;
     private String subCode;
     private String subMsg;

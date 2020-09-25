@@ -141,3 +141,30 @@
  -keep class * implements java.io.Serializable {*;}
 #---------------------------------------------------------------------------------------------------
 -keep class androidx.viewpager2.**.** { *;}
+#glide
+ -keep public class * implements com.bumptech.glide.module.GlideModule
+ -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+     **[] $VALUES;
+     public *;
+ }
+
+
+ #RxEasyHttp
+  -keep class com.zhouyou.http.model.** {*;}
+  -keep class com.zhouyou.http.cache.model.** {*;}
+  -keep class com.zhouyou.http.cache.stategy.**{*;}
+
+  #==================gson && protobuf==========================
+  -dontwarn com.google.**
+  -keep class com.google.gson.** {*;}
+  -keep class com.google.protobuf.** {*;}
+
+   # Gson
+   -keep class com.google.gson.stream.** { *; }
+   -keepattributes EnclosingMethod
+   -keep class org.xz_sale.entity.**{*;}
+   -keep class com.google.gson.** {*;}
+   -keep class com.google.**{*;}
+   -keep class sun.misc.Unsafe { *; }
+   -keep class com.google.gson.stream.** { *; }
+   -keep class com.google.gson.examples.android.model.** { *; }
