@@ -17,5 +17,5 @@ class PageInfo {
     }
 
     val isFirstPage: Boolean
-        get() = page == 1
+        get() = page == 0
 }

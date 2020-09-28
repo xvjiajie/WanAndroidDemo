@@ -56,7 +56,7 @@ open abstract class BaseFragment : ImmersionFragment(){
     private val mProgressDialog: ProgressDialog by lazy {
         MyProgressDialog(context)
     }
-    protected open fun showProgressDialog(msg: String = "") {
+    protected open fun showProgressDialog(msg: String ?= "") {
 //        mProgressDialog.setMessage(if (msg == null || msg.isEmpty()) "加载中..." else msg)
         mProgressDialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -10,7 +10,7 @@ object UrlHelp {
     const val DATA = "data"
     const val SUB_CODE = "subCode"
     const val SUB_MSG = "subMsg"
-    private const val API = "/api"
+    private const val API = ""
     private var BSSE_URL: String? = null
     var bsseUrl: String?
         get() = if (BSSE_URL == null) "https://www.wanandroid.com" else BSSE_URL
@@ -22,152 +22,15 @@ object UrlHelp {
     object Api {
         private const val KEY = API + ""
 
-        /**
-         * 猜你喜欢
-         */
-        const val FAVORITE = KEY + "/guess/favorite/category/v1"
-
-        /**
-         * 订单提交
-         */
-        const val ORDER_SUBMIT = KEY + "/order/submit/v1"
-
-        /**
-         * 提交支付
-         */
-        const val SUBMIT_PAY = KEY + "/submit/pay/v1"
-
-        /**
-         * 收银台校验支付密码
-         * 目前仅用于微信支付
-         */
-        const val SUBMIT_WX_CHAT = KEY + "/submit/third/pay/v1"
-
-        /**
-         * 每日用户登录态下首次打开app上报接口（统计日活）
-         */
-        const val USER_OPEN_APP = KEY + "/user/open/app/v1"
-
-        /**
-         * 刷新鉴权码
-         */
-        const val refresh_authCode = KEY + "/user/login/refresh/authCode/v1"
-
-        /**
-         * 绑卡
-         */
-        const val BANK_SEND = KEY + "/bankCard/bindCard/v1"
-
-        /**
-         * 修改绑卡信息
-         */
-        const val updateUserBankCard = KEY + "/bankCard/updateUserBankCard/v1"
-
-        /**
-         *
-         */
-        const val getUserBankCardDetail = KEY + "/bankCard/getUserBankCardDetail/v1"
-
-        /**
-         * 校验绑卡信息
-         */
-        const val BANK_SIGNATURE = KEY + "/bankCard/bindCard/v1"
-
-        /**
-         * 获取已合作银行列表信息
-         */
-        const val BANK_LIST = KEY + "/bankCard/listBank/v1"
-
-        /**
-         * 设置支付密码
-         */
-        const val SET_PAY_PWD = KEY + "/payPwd/setPayPwd/v1"
-
-        /**
-         * 是否设置支付密码
-         */
-        const val isSetPayPwd = KEY + "/payPwd/isSetPayPwd/v1"
-
-        /**
-         * 银行卡列表
-         */
-        const val bankcards = KEY + "/bankCard/getUserBankCard/v1"
-
-        /**
-         * 银行卡-获取用户默认银行卡
-         */
-        const val bankCard_default = KEY + "/bankCard/default/v1"
-
-        /**
-         * 商品获取估值
-         */
-        const val valuation = KEY + "/goods/submit/valuation/v1"
-
-        /**
-         * 解绑银行卡
-         */
-        const val bankcards_delete = KEY + "/bankCard/unBindCard/v1"
-
-        /**
-         * 忘记密码-获取图片验证码
-         */
-        const val GET_PAYPWD_CODE = KEY + "/payPwd/getImageCode/v1"
-
-        /**
-         * 忘记支付密码发送短信
-         */
-        const val PAYPWD_GETVERIFYCODE = KEY + "/payPwd/sendPayPwdSms/v1"
-
-        /**
-         * 支付密码-校验短信验证码
-         */
-        const val PAYPWD_CHECKVCODE = KEY + "/payPwd/checkVCode/v1"
-
-        /**
-         * 校验旧密码
-         */
-        const val checkOldPwd = KEY + "/payPwd/checkOldPwd/v1"
-
-        /**
-         * 获取估价商品类目列表
-         */
-        const val evaluated_goods = KEY + "/evaluatedgoods/gettype/v1"
+        const val banner_json="banner/json"
     }
 
-    object Goods {
-        /**
-         * 商品搜索goods/detail/v1
-         */
-        const val SEARCH_GOOD = API + "/goods/search/v1"
-        private const val KEY = API + "/goods"
+    object Article {
+        private const val KEY = "$API/article"
 
-        /**
-         * 用户发布或更新商品
-         */
-        const val addOrUpdate = KEY + "/addOrUpdate/v1"
+        const val top_json = "$KEY/top/json"
 
-        /**
-         *
-         */
-        const val sell_xiaoMai = KEY + "/sell/xiaoMai/v1"
 
-        /**
-         * 第三方兑奖码提交兑奖
-         */
-        const val submit_code = KEY + "/submit/code/v1"
-        const val list = KEY + "/list/v1"
-        const val detail = KEY + "/detail/v1"
-
-        /**
-         * 用户商品上下架
-         */
-        const val shelvesStatus = KEY + "/shelvesStatus/v1"
-        const val delete = KEY + "/delete/v1"
-
-        /**
-         * 兑奖码查询
-         */
-        const val prize_code = KEY + "/prize/code/v1"
     }
 
     object Order {

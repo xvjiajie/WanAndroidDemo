@@ -4,8 +4,8 @@ import android.util.Log
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
-import com.xujiajie.wanandroid.HomeFragment1Bean
 import com.xujiajie.wanandroid.R
+import com.xujiajie.wanandroid.data.bean.HomeFragment1Bean
 import com.xujiajie.wanandroid.databinding.ItemHomeFragment1ListBinding
 import com.xujiajie.wanandroid.ext.htmlToSpanned
 import com.xujiajie.wanandroid.ext.text
@@ -22,7 +22,6 @@ class HomeFragment1Adapter :BaseQuickAdapter<HomeFragment1Bean,BaseDataBindingHo
         item: HomeFragment1Bean
     ) {
         holder?.dataBinding?.apply {
-            Log.d(TAG, "convert: $item")
             tvHomePageItemAuthor.text = when {
                 !item.author.isNullOrEmpty() -> {
                     item.author
