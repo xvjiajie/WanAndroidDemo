@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">WanAndroidDemo</string>
     <string name="cannot_be_empty">不可为空</string>
 
     <string name="home_page">首页</string>

@@ -1,11 +1,15 @@
 package com.xujiajie.wanandroid.utils.glide;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -16,10 +20,10 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xujiajie.wanandroid.utils.DisplayUtil;
 
-public class MyImageLoader {
+public class MyImageLoader2 {
     private static String TAG = "MyImageLoader";
 
-    public MyImageLoader() {
+    public MyImageLoader2() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -27,8 +31,8 @@ public class MyImageLoader {
         return new Builder();
     }
 
-    public static class Builder<T extends Context> {
-        private T mContext;
+    public static class Builder {
+        private RequestManager requestManager;
         private Object mPath;
         private int mError;
         private int mPlaceholders;
@@ -38,8 +42,7 @@ public class MyImageLoader {
         private boolean isRoundImg;
         private boolean asBitmap;
 
-        private Builder Builder(T t) {
-            mContext = t;
+        private Builder Builder() {
             return this;
         }
 
@@ -47,8 +50,28 @@ public class MyImageLoader {
             isRoundImg = roundImg;
             return this;
         }
-        public Builder with(T context) {
-            mContext = context;
+        public Builder with(Context context) {
+            requestManager = Glide.with(context);
+            return this;
+        }
+        public Builder with(Activity activity) {
+            requestManager = Glide.with(activity);
+            return this;
+        }
+        public Builder with(Fragment fragment) {
+            requestManager = Glide.with(fragment);
+            return this;
+        }
+        public Builder with(View view) {
+            requestManager = Glide.with(view);
+            return this;
+        }
+        public Builder with(FragmentActivity fragmentActivity) {
+            requestManager = Glide.with(fragmentActivity);
+            return this;
+        }
+        public Builder with(android.app.Fragment fragment) {
+            requestManager = Glide.with(fragment);
             return this;
         }
         public Builder asBitmap(boolean isBitmap) {
@@ -88,14 +111,13 @@ public class MyImageLoader {
 
         public void show() {
 
-            RequestManager requestManager = Glide.with(mContext);
             RequestOptions options;
             if (isRoundImg){
                 options = RequestOptions.bitmapTransform(new CircleCrop());
             }else {
                 if (mRadius != 0){
                     options = new RequestOptions().fitCenter();
-                    options.transform(new CenterCropRoundCornerTransform(DisplayUtil.dp2px(mContext,mRadius)));
+                    options.transform(new CenterCropRoundCornerTransform(mRadius));
                 }else {
                     options = new RequestOptions();
                 }

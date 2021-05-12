@@ -17,12 +17,13 @@ import com.xujiajie.wanandroid.data.HomeFragment1HeadData
 import com.xujiajie.wanandroid.data.HomeFragment1ListData
 import com.xujiajie.wanandroid.databinding.FragmentHome1Binding
 import com.xujiajie.wanandroid.databinding.HeadFragmentHome1Binding
+import com.xujiajie.wanandroid.ext.dp2px
 import com.xujiajie.wanandroid.ext.resourceId
 import com.xujiajie.wanandroid.utils.DisplayUtil
+import com.xujiajie.wanandroid.utils.Resource
 import com.xujiajie.wanandroid.utils.ToastUtils
 import com.xujiajie.wanandroid.vm.VMHomeFragment1
 import com.youth.banner.indicator.CircleIndicator
-import com.zhouyou.http.utils.http.Resource
 
 /**
  * 创建日期 2020/9/24
@@ -44,7 +45,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
     }
 
     val mBannerHeight by lazy {
-        DisplayUtil.dp2px(mContext,200f)
+        mContext!!.dp2px(200f)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,7 +81,6 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     totalDy += dy
-                    Log.d(TAG, "onScrolled: totalDy=$totalDy   dy=$dy")
                     if (totalDy < 0) {
                         totalDy = 0
                     }
@@ -100,7 +100,8 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
             live.observe(this@HomeFragment1,{})
             headDataLive.observe(this@HomeFragment1,{})
         }*/
-        mViewModel.live.observe(this, {
+
+        mViewModel.live.observe(viewLifecycleOwner, {
             it.handler(object : Resource.OnHandleCallback<HomeFragment1ListData> {
                 override fun onLoading(showMessage: String?) {
                     showProgressDialog(showMessage)
@@ -138,7 +139,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
 
             })
         })
-        mViewModel.headDataLive.observe(this, {
+        mViewModel.headDataLive.observe(viewLifecycleOwner, {
             it.handler(object : Resource.OnHandleCallback<HomeFragment1HeadData> {
                 override fun onLoading(showMessage: String?) {
                     showProgressDialog(showMessage)
@@ -157,8 +158,8 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                             .setDelayTime(3000)
                             .setBannerRound2(8f)
                             .setIndicatorWidth(
-                                DisplayUtil.dp2px(getContext(), 8F),
-                                DisplayUtil.dp2px(getContext(), 8f)
+                                mContext!!.dp2px(8F),
+                                mContext!!.dp2px(8F)
                             )
                             .start();
                     }
@@ -187,7 +188,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
             ContextCompat.getColor(
                 it, TypedValue().resourceId(
                     R.attr.colorPrimaryDark,
-                    activity!!.theme
+                    requireActivity().theme
                 )
             )
         }?.let {

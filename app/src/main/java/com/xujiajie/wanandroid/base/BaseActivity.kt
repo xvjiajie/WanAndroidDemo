@@ -35,7 +35,7 @@ open abstract class BaseActivity : AppCompatActivity() {
         setTheme(getAppTheme())
         super.onCreate(savedInstanceState)
         mContext = this
-
+        initImmersionBar()
     }
 
     open fun initImmersionBar() {
@@ -49,7 +49,7 @@ open abstract class BaseActivity : AppCompatActivity() {
         }
     }
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        if ("FrameLayout" == name) {
+        /*if ("FrameLayout" == name) {
             val count = attrs.attributeCount
             for (i in 0 until count) {
                 val attributeName = attrs.getAttributeName(i)
@@ -62,7 +62,7 @@ open abstract class BaseActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }*/
         return super.onCreateView(name, context!!, attrs)
     }
 

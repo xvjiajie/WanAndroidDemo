@@ -31,7 +31,7 @@ class ImageAdapter<T>(mDatas: List<T>?) : BannerAdapter<T, ImageHolder>(mDatas) 
     }
 
     override fun onBindView(holder: ImageHolder, data: T, position: Int, size: Int) {
-        MyImageLoader.getBuilder().with(holder.imageView.context).into(holder.imageView).load(data)
+        MyImageLoader.builder.with(holder.imageView.context).into(holder.imageView).load(data)
             .show()
     }
 }

@@ -28,19 +28,19 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiResult<T> {
     @SerializedName("errorCode")
-    private String code;
+    private int code;
     @SerializedName("errorMsg")
     private String msg;
     private String subCode;
     private String subMsg;
     private T data;
     public int getCode() {
-        return Integer.parseInt(code);
+        return code;
     }
 
 
     public void setCode(int code) {
-        this.code = String.valueOf(code);
+        this.code = code;
     }
 
     public String getMsg() {
@@ -60,7 +60,7 @@ public class ApiResult<T> {
     }
 
     public boolean isOk() {
-        return "000".equals(code)||"0".equals(code);
+        return "000".equals(code)||"0".equals(code) || 0==code;
     }
 
     @Override

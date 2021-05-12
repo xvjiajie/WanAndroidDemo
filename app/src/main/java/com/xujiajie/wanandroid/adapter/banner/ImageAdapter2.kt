@@ -41,7 +41,7 @@ class ImageAdapter2<T> : BannerAdapter<T, ImageHolder> {
     }
 
     override fun onBindView(holder: ImageHolder, data: T, position: Int, size: Int) {
-        MyImageLoader.getBuilder().with(holder.imageView.context).into(holder.imageView)
+        MyImageLoader.builder.with(holder.imageView.context).into(holder.imageView)
             .setRadius(radius).load(data).show()
     }
 }

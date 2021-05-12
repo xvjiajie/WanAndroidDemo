@@ -22,7 +22,8 @@ object UrlHelp {
     object Api {
         private const val KEY = API + ""
 
-        const val banner_json="banner/json"
+        const val banner_json="/banner/json"
+        const val project_tree="/project/tree/json"
     }
 
     object Article {

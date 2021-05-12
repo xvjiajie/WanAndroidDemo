@@ -22,7 +22,7 @@ import com.xujiajie.wanandroid.ui.MyProgressDialog
  */
 open abstract class BaseFragment : ImmersionFragment(){
     val TAG = this.javaClass.simpleName
-    protected var mContext: Context? = null
+    protected var mContext: Context ?= null
     protected open fun finish() {
         activity?.let {
             it.finish()
@@ -30,7 +30,7 @@ open abstract class BaseFragment : ImmersionFragment(){
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mContext = context
+        mContext = requireContext();
     }
 
     override fun onCreateView(

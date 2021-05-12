@@ -1,13 +1,22 @@
 package com.xujiajie.wanandroid
 
+import android.Manifest
+import android.app.Activity
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
-import android.widget.SeekBar
+import android.os.Environment
+import android.os.StatFs
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.gyf.immersionbar.ImmersionBar
-import com.gyf.immersionbar.ktx.immersionBar
 import com.xujiajie.wanandroid.base.BaseMActivity
 import com.xujiajie.wanandroid.databinding.ActivityMainBinding
 import com.xujiajie.wanandroid.ui.fragment.HomeFragment1
+import com.xujiajie.wanandroid.ui.fragment.HomeFragment2
+import com.xujiajie.wanandroid.ui.fragment.HomeProjectFragment
+import com.xujiajie.wanandroid.utils.ToastUtils
 
 class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
     private val fragments = arrayListOf<Fragment>()
@@ -16,10 +25,29 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
     private var currentFragment: Fragment? = null//要显示的Fragment
     private var hideFragment: Fragment? = null//要隐藏的Fragment
     override fun initView(savedInstanceState: Bundle?) {
-
+        mLocationHelp = LocationHelp(activityResultRegistry, mContext)
+        lifecycle.addObserver(mLocationHelp)
+        mLocationHelp.onCreate(this@MainActivity)
         fragments?.apply {
             add(HomeFragment1())
+            add(HomeProjectFragment())
+            add(HomeFragment2())
         }
+        val statFs = StatFs(Environment.getExternalStorageDirectory().path)
+
+
+        //这两个方法是直接输出总内存和可用空间，也有getFreeBytes
+        //API level 18（JELLY_BEAN_MR2）引入
+
+
+        //这两个方法是直接输出总内存和可用空间，也有getFreeBytes
+        //API level 18（JELLY_BEAN_MR2）引入
+        val totalSize = statFs.totalBytes
+        val availableSize = statFs.availableBytes
+        val a = (totalSize shr 30)
+        Log.d(TAG, "init:totalSize= ${a}   ${totalSize/1024/1024/1024}")
+
+
         mBinding?.bottomNavView?.apply {
             setOnNavigationItemSelectedListener {
                 when (it.itemId) {
@@ -27,21 +55,42 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
                         setSelectedFragment(0)
                     }
                     R.id.home_system -> {
+                        setSelectedFragment(1)
                     }
                     R.id.home_project -> {
+                        setSelectedFragment(2)
                     }
                     R.id.home_plaza -> {
+
+                        val intent1 = Intent()
+                        intent1.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
+                        //设置intent的动作为com.example.broadcast，可以任意定义
+                        intent1.action = "com.xxx.broadcast"
+                        intent1.putExtra("referrer", "eeee")
+                        intent1.component =
+                            ComponentName(
+                                "ai.advance.liveness.demo",
+                                "ai.advance.liveness.demo.MyReferrerReceiver"
+                            )
+                        sendBroadcast(intent1)
                     }
                     R.id.home_mine -> {
+                        mLocationHelp.launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                     }
                 }
                 true
             }
         }
+        setSelectedFragment(mPosition)
     }
 
+    private lateinit var mLocationHelp: LocationHelp
     override fun initImmersionBar() {
         super.initImmersionBar()
+
+        observer = MyLifecycleObserver(getActivityResultRegistry())
+        lifecycle.addObserver(observer)
+
         /*ImmersionBar.with(this)
             .titleBar(mBinding?.tb?.toolbar) //                .setOnBarListener(this::adjustView)
             .init()*/
@@ -53,6 +102,33 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
     override fun getContentLayout(): Int {
         return R.layout.activity_main
     }
+
+    lateinit var observer: MyLifecycleObserver
+
+    // 请求单个权限
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            // Do something if permission granted
+            if (isGranted) ToastUtils.showToast(mContext, "Permission is granted")
+            else ToastUtils.showToast(mContext, "Permission is denied")
+        }
+
+    // 请求一组权限
+    private val requestMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: Map<String, Boolean> ->
+            // Do something if some permissions granted or denied
+            permissions.entries.forEach {
+                // Do checking here
+            }
+        }
+
+    // 请求一组权限
+    private val requestPickContact =
+        registerForActivityResult(ActivityResultContracts.PickContact()) {
+            it
+            Log.d(TAG, ": $it")
+        }
+
 
     /**
      * 根据位置选择Fragment
@@ -88,5 +164,25 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
         transaction.commit()//提交事务
         lastPosition = position//更新要隐藏的fragment的位置
         mPosition = position
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mContext?.getSharedPreferences(packageName, MODE_PRIVATE)?.let {
+            val s = it.getString("key", "1")
+            ToastUtils.showToast(mContext, s + "")
+        }
+        /*val string = MMKV.defaultMMKV().getString("referrer", "false")
+        ToastUtils.showToast(mContext, "string=$string")*/
+    }
+
+
+    private val myActivityLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){ activityResult ->
+        if(activityResult.resultCode == Activity.RESULT_OK){
+            val result = activityResult.data?.getStringExtra("result")
+
+        }
     }
 }

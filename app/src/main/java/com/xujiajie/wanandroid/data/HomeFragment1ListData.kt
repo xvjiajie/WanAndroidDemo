@@ -2,6 +2,7 @@ package com.xujiajie.wanandroid.data
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.squareup.moshi.JsonClass
 import com.xujiajie.wanandroid.data.bean.HomeFragment1Bean
 import java.io.Serializable
 import java.util.*
@@ -27,6 +28,7 @@ import java.util.*
 
 }*/
 
+@JsonClass(generateAdapter = true)
 data class HomeFragment1ListData(
     var curPage:Int,
     var offset: Int,

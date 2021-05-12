@@ -156,3 +156,8 @@ fun View.hideSoftInput() {
 
 fun Long.toDateTime(pattern: String): String =
     SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+
+fun Context.dp2px(dipValue: Float):Int{
+    val scale = resources.displayMetrics.density
+    return (dipValue * scale!! + 0.5f).toInt()
+}
