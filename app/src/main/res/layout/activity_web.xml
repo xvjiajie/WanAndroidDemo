@@ -6,22 +6,16 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <include layout="@layout/base_toolbar"
+            android:id="@+id/tb"/>
+        <FrameLayout
+            android:id="@+id/webContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <FrameLayout
-                android:id="@+id/webContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-
-    </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </layout>

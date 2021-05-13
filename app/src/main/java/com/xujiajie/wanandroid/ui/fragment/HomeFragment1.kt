@@ -19,11 +19,12 @@ import com.xujiajie.wanandroid.databinding.FragmentHome1Binding
 import com.xujiajie.wanandroid.databinding.HeadFragmentHome1Binding
 import com.xujiajie.wanandroid.ext.dp2px
 import com.xujiajie.wanandroid.ext.resourceId
-import com.xujiajie.wanandroid.utils.DisplayUtil
+import com.xujiajie.wanandroid.ui.WebActivity
 import com.xujiajie.wanandroid.utils.Resource
 import com.xujiajie.wanandroid.utils.ToastUtils
 import com.xujiajie.wanandroid.vm.VMHomeFragment1
 import com.youth.banner.indicator.CircleIndicator
+import com.youth.banner.listener.OnBannerListener
 
 /**
  * 创建日期 2020/9/24
@@ -56,6 +57,9 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
             layoutManager = LinearLayoutManager(mContext)
             adapter = mHeadAdapter
         }
+        mHeadAdapter.setOnItemClickListener { _, _, position -> kotlin.run {
+            mContext?.let { WebActivity.start(it,mHeadAdapter.data[position].link) }
+        } }
         initRecyclerView()
         mViewModel.getHeadData()
         mViewModel.getData()
@@ -69,7 +73,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                 mViewModel.getData()
             }
             setOnItemClickListener { _, _, position ->
-
+                mContext?.let { WebActivity.start(it,this.data[position].link) }
             }
             addHeaderView(mHeadView.root)
         }
@@ -111,7 +115,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                     Log.d(TAG, "onSuccess: $data")
 
                     if (mViewModel.mPageInfo.isFirstPage) {
-                        if (data.datas!!.isNotEmpty()) {
+                        if (data.datas?.isNotEmpty() == true) {
                             mAdapter.setList(data.datas)
                         }
                     } else {
@@ -139,7 +143,7 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
 
             })
         })
-        mViewModel.headDataLive.observe(viewLifecycleOwner, {
+        mViewModel.headDataLive.observe(viewLifecycleOwner, { it ->
             it.handler(object : Resource.OnHandleCallback<HomeFragment1HeadData> {
                 override fun onLoading(showMessage: String?) {
                     showProgressDialog(showMessage)
@@ -153,15 +157,21 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                         data.banner.forEach {it
                             banners.add(it.imagePath)
                         }
-                        mHeadView.banner?.setAdapter(ImageAdapter(banners))
-                            .setIndicator(CircleIndicator(getContext()))
-                            .setDelayTime(3000)
-                            .setBannerRound2(8f)
-                            .setIndicatorWidth(
-                                mContext!!.dp2px(8F),
-                                mContext!!.dp2px(8F)
-                            )
-                            .start();
+                        mContext?.let { it1 ->
+                            mHeadView.banner?.setAdapter(ImageAdapter(banners))
+                                .setIndicator(CircleIndicator(it1))
+                                .setDelayTime(3000)
+                                .setBannerRound2(8f)
+                                .setIndicatorWidth(
+                                    it1.dp2px(8F),
+                                    it1.dp2px(8F)
+                                ).setOnBannerListener(object :OnBannerListener<String>{
+                                    override fun OnBannerClick(data: String?, position: Int) {
+                                        WebActivity.start(it1,it.banner[position].url)
+                                    }
+                                })
+                                .start()
+                        };
                     }
                 }
 

@@ -1,8 +1,5 @@
 package com.xujiajie.wanandroid
 
-import android.Manifest
-import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -14,8 +11,9 @@ import androidx.fragment.app.Fragment
 import com.xujiajie.wanandroid.base.BaseMActivity
 import com.xujiajie.wanandroid.databinding.ActivityMainBinding
 import com.xujiajie.wanandroid.ui.fragment.HomeFragment1
-import com.xujiajie.wanandroid.ui.fragment.HomeFragment2
+import com.xujiajie.wanandroid.ui.fragment.WebFragment
 import com.xujiajie.wanandroid.ui.fragment.HomeProjectFragment
+import com.xujiajie.wanandroid.ui.fragment.HomeSetUpFragment
 import com.xujiajie.wanandroid.utils.ToastUtils
 
 class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
@@ -30,8 +28,9 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
         mLocationHelp.onCreate(this@MainActivity)
         fragments?.apply {
             add(HomeFragment1())
+            add(HomeSetUpFragment.newInstance())
             add(HomeProjectFragment())
-            add(HomeFragment2())
+            add(WebFragment())
         }
         val statFs = StatFs(Environment.getExternalStorageDirectory().path)
 
@@ -45,7 +44,7 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
         val totalSize = statFs.totalBytes
         val availableSize = statFs.availableBytes
         val a = (totalSize shr 30)
-        Log.d(TAG, "init:totalSize= ${a}   ${totalSize/1024/1024/1024}")
+        Log.d(TAG, "init:totalSize= $a   ${totalSize/1024/1024/1024}")
 
 
         mBinding?.bottomNavView?.apply {
@@ -61,21 +60,10 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
                         setSelectedFragment(2)
                     }
                     R.id.home_plaza -> {
-
-                        val intent1 = Intent()
-                        intent1.flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-                        //设置intent的动作为com.example.broadcast，可以任意定义
-                        intent1.action = "com.xxx.broadcast"
-                        intent1.putExtra("referrer", "eeee")
-                        intent1.component =
-                            ComponentName(
-                                "ai.advance.liveness.demo",
-                                "ai.advance.liveness.demo.MyReferrerReceiver"
-                            )
-                        sendBroadcast(intent1)
+                        setSelectedFragment(3)
                     }
                     R.id.home_mine -> {
-                        mLocationHelp.launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
                     }
                 }
                 true
@@ -166,23 +154,6 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
         mPosition = position
     }
 
-    override fun onResume() {
-        super.onResume()
-        mContext?.getSharedPreferences(packageName, MODE_PRIVATE)?.let {
-            val s = it.getString("key", "1")
-            ToastUtils.showToast(mContext, s + "")
-        }
-        /*val string = MMKV.defaultMMKV().getString("referrer", "false")
-        ToastUtils.showToast(mContext, "string=$string")*/
-    }
 
 
-    private val myActivityLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ){ activityResult ->
-        if(activityResult.resultCode == Activity.RESULT_OK){
-            val result = activityResult.data?.getStringExtra("result")
-
-        }
-    }
 }

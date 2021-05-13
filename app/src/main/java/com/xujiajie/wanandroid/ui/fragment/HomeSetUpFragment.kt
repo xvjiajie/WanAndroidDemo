@@ -13,23 +13,39 @@ import com.xujiajie.wanandroid.R
 import com.xujiajie.wanandroid.adapter.HomeProjectFragmentAdapter
 import com.xujiajie.wanandroid.base.BaseMFragment
 import com.xujiajie.wanandroid.data.bean.HomeProjectTabBean
-import com.xujiajie.wanandroid.databinding.FragmentHomeProjectBinding
+import com.xujiajie.wanandroid.databinding.FragmentHomeSetUpBinding
 import com.xujiajie.wanandroid.ext.inflate
 import com.xujiajie.wanandroid.ext.resourceId
 import com.xujiajie.wanandroid.utils.Resource
 import com.xujiajie.wanandroid.utils.ToastUtils
-import com.xujiajie.wanandroid.vm.VMHomeProjectFragment
+import com.xujiajie.wanandroid.vm.HomeSetUpFragmentViewModel
 import kotlin.math.absoluteValue
 
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
 /**
- * 创建日期 2020/9/24
- * 描述：项目
+ * A simple [Fragment] subclass.
+ * Use the [HomeSetUpFragment.newInstance] factory method to
+ * create an instance of this fragment.
  */
-class HomeProjectFragment : BaseMFragment<VMHomeProjectFragment, FragmentHomeProjectBinding>() {
-    override fun getContentLayout(): Int {
-        return R.layout.fragment_home_project
+class HomeSetUpFragment : BaseMFragment<HomeSetUpFragmentViewModel,FragmentHomeSetUpBinding>() {
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
     }
 
+    override fun getContentLayout(): Int {
+        return R.layout.fragment_home_set_up
+    }
     private val mFragmentList = mutableListOf<Fragment>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +69,7 @@ class HomeProjectFragment : BaseMFragment<VMHomeProjectFragment, FragmentHomePro
                 mBinding.tlMainProject.onPageScrollStateChanged(state)
             }
         })
-        mBinding.tlMainProject.setupViewPager(object : ViewPagerDelegate{
+        mBinding.tlMainProject.setupViewPager(object : ViewPagerDelegate {
             override fun onGetCurrentItem(): Int {
                 return mBinding.viewPage.currentItem
             }
@@ -80,10 +96,10 @@ class HomeProjectFragment : BaseMFragment<VMHomeProjectFragment, FragmentHomePro
                                         tl.addView(this)
                                     }
                                 }
-                                mFragmentList.add(ProjectTypeFragment.newInstance(bean.id,0))
+                                mFragmentList.add(ProjectTypeFragment.newInstance(bean.id,1))
                             }
                             mBinding.viewPage.apply {
-                                adapter = HomeProjectFragmentAdapter(this@HomeProjectFragment,mFragmentList)
+                                adapter = HomeProjectFragmentAdapter(this@HomeSetUpFragment,mFragmentList)
                             }
                         }
                     }
@@ -123,5 +139,25 @@ class HomeProjectFragment : BaseMFragment<VMHomeProjectFragment, FragmentHomePro
             titleBar(mBinding?.tb?.toolbar)
 //            statusBarView(mBinding?.tb?.toolbar)
         }
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment HomeSetUpFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance() =
+            HomeSetUpFragment().apply {
+                /*arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }*/
+            }
     }
 }

@@ -10,6 +10,7 @@ import com.xujiajie.wanandroid.base.BaseLiveData
 import com.xujiajie.wanandroid.base.BaseMFragment
 import com.xujiajie.wanandroid.data.ProjectTypeData
 import com.xujiajie.wanandroid.databinding.FragmentProjectTypeBinding
+import com.xujiajie.wanandroid.ui.WebActivity
 import com.xujiajie.wanandroid.utils.Resource
 import com.xujiajie.wanandroid.vm.ProjectTypeViewModel
 import kotlinx.coroutines.delay
@@ -18,13 +19,15 @@ import kotlinx.coroutines.delay
  * 创建日期 2020/11/26
  * 描述：
  */
+private const val ARG_PARAM1 = "param1"
 class ProjectTypeFragment : BaseMFragment<ProjectTypeViewModel, FragmentProjectTypeBinding>() {
     companion object {
         private const val KEY_ID = "id"
-        fun newInstance(id: Int): ProjectTypeFragment {
+        fun newInstance(id: Int,type:Int): ProjectTypeFragment {
 
             val args = Bundle()
             args.putInt(KEY_ID, id)
+            args.putInt(ARG_PARAM1, type)
             val fragment = ProjectTypeFragment()
             fragment.arguments = args
             return fragment
@@ -33,6 +36,9 @@ class ProjectTypeFragment : BaseMFragment<ProjectTypeViewModel, FragmentProjectT
 
     private val id by lazy {
         arguments?.getInt(KEY_ID)
+    }
+    private val type by lazy {
+        arguments?.getInt(ARG_PARAM1)
     }
 
     override fun getContentLayout(): Int {
@@ -58,10 +64,10 @@ class ProjectTypeFragment : BaseMFragment<ProjectTypeViewModel, FragmentProjectT
             loadMoreModule.isAutoLoadMore = true
             loadMoreModule.setOnLoadMoreListener {
                 mViewModel.mPageInfo.nextPage()
-                id?.let { mViewModel.getData(mLiveData,cid = it) }
+                id?.let { type?.let { it1 -> mViewModel.getData(mLiveData,cid = it, it1) } }
             }
             setOnItemClickListener { _, _, position ->
-
+                mContext?.let { WebActivity.start(it,this.data[position].link) }
             }
         }
         mLiveData.observe(viewLifecycleOwner,
@@ -101,7 +107,7 @@ class ProjectTypeFragment : BaseMFragment<ProjectTypeViewModel, FragmentProjectT
             })
 
         id?.let {
-            mViewModel.getData(mLiveData, cid = it)
+            type?.let { it1 -> mViewModel.getData(mLiveData, cid = it, it1) }
         }
     }
 

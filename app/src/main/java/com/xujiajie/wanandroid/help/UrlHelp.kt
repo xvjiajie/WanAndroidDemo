@@ -24,6 +24,7 @@ object UrlHelp {
 
         const val banner_json="/banner/json"
         const val project_tree="/project/tree/json"
+        const val tree_json="/tree/json"
     }
 
     object Article {

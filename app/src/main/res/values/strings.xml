@@ -11,4 +11,6 @@
 
     <string name="anonymous">匿名</string>
     <string name="stick">置顶</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

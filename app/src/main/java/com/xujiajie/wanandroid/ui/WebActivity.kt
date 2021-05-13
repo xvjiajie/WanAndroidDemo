@@ -1,5 +1,7 @@
 package com.xujiajie.wanandroid.ui
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.TypedValue
@@ -7,33 +9,60 @@ import android.view.ViewGroup
 import android.webkit.ConsoleMessage
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.core.content.ContextCompat
 import com.gyf.immersionbar.ktx.immersionBar
 import com.just.agentweb.*
 import com.xujiajie.wanandroid.R
 import com.xujiajie.wanandroid.base.BaseActivity
+import com.xujiajie.wanandroid.base.BaseDActivity
+import com.xujiajie.wanandroid.data.bean.HomeFragment1BannerBean
+import com.xujiajie.wanandroid.databinding.ActivityWebBinding
 import com.xujiajie.wanandroid.ext.color
 import com.xujiajie.wanandroid.ext.resourceId
 import kotlinx.android.synthetic.main.activity_web.*
 
-class WebActivity : BaseActivity() {
+class WebActivity : BaseDActivity<ActivityWebBinding>() {
     private var agentWeb: AgentWeb? = null
-    var mBinding: ViewDataBinding? = null
+    var url:String?=null
+    companion object {
+        fun start(context: Context, url: String) {
+            val intent = Intent(context, WebActivity::class.java)
+            intent.putExtra("url",url)
+            context.startActivity(intent)
+        }
+    }
     override fun getContentLayout(): Int {
         return R.layout.activity_web
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+    override fun initImmersionBar() {
+//        super.initImmersionBar()
+        mContext?.let {
+            ContextCompat.getColor(
+                it, TypedValue().resourceId(
+                    R.attr.colorPrimaryDark,
+                    theme
+                )
+            )
+        }?.let {
+            mBinding?.tb?.toolbar?.setBackgroundColor(
+                it
+            )
+        }
+        immersionBar {
+            titleBar(mBinding?.tb?.toolbar)
+        }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, getContentLayout())
+    override fun initView(savedInstanceState: Bundle?) {
         setContentView(mBinding!!.root)
-
+        intent?.apply {
+            url = getStringExtra("url")
+        }
+        mBinding?.tb?.toolbar?.apply {
+            setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            setNavigationOnClickListener { finish() }
+        }
         agentWeb = AgentWeb.with(this)
             .setAgentWebParent(webContainer, ViewGroup.LayoutParams(-1, -1))
             .useDefaultIndicator(color(R.color.colorAccent), 2)
@@ -84,7 +113,7 @@ class WebActivity : BaseActivity() {
             }
         }
 
-        agentWeb?.urlLoader?.loadUrl("https://github.com/liujingxing/okhttp-RxHttp")
-
+        agentWeb?.urlLoader?.loadUrl(url)
     }
+
 }

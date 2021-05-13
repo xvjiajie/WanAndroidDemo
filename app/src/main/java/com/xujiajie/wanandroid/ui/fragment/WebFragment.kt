@@ -17,7 +17,7 @@ import com.xujiajie.wanandroid.vm.VMHomeFragment1
  * 创建日期 2020/9/24
  * 描述：
  */
-class HomeFragment2 : BaseMFragment<VMHomeFragment1, FragmentHome2Binding>() {
+class WebFragment : BaseMFragment<VMHomeFragment1, FragmentHome2Binding>() {
     private var agentWeb: AgentWeb? = null
     override fun getContentLayout(): Int {
         return R.layout.fragment_home_2
@@ -113,7 +113,7 @@ class HomeFragment2 : BaseMFragment<VMHomeFragment1, FragmentHome2Binding>() {
                 "${Uri.parse("http:/\\/tapi.loanunion.in\\/h5\\/indexPage")} " +
                 "${Uri.encode("http:/\\/tapi.loanunion.in\\/h5\\/indexPage")}")
 
-        mBinding.web?.loadUrl(Uri.decode("http:/\\/tapi.loanunion.in\\/h5\\/indexPage"))
+        mBinding.web?.loadUrl("http://tapi.loanunion.in/h5/indexPage")
 
     }
 }
