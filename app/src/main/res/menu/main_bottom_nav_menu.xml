@@ -4,22 +4,28 @@
     <item
         android:id="@+id/home_page"
         android:icon="@drawable/ic_baseline_home_24"
+        android:iconTint="@color/colorAccent"
         android:title="@string/home_page" />
     <item
         android:id="@+id/home_system"
+        android:iconTint="#F44336"
         android:icon="@drawable/ic_baseline_line_style_24"
         android:title="@string/home_system" />
     <item
         android:id="@+id/home_project"
+        android:iconTint="#E91E63"
         android:icon="@drawable/ic_baseline_toys_24"
         android:title="@string/home_project" />
     <item
         android:id="@+id/home_plaza"
+        android:iconTint="#673AB7"
+        android:iconTintMode="screen"
         android:icon="@drawable/ic_baseline_nature_people_24"
         android:title="@string/home_plaza" />
 
     <item
         android:id="@+id/home_mine"
+        android:iconTint="#FFEB3B"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/home_mine" />
 </menu>

@@ -155,5 +155,29 @@ class MainActivity : BaseMActivity<MainViewModel, ActivityMainBinding>() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        val list = arrayListOf<String>()
+        for (i in 0..10){
+            if ( i == 3){
+                log()
+            }
+        }
 
+        for (i in 0 until 10){
+
+        }
+        list.forEachIndexed { index, s ->  }
+        for (s in list) {
+
+        }
+    }
+
+    private fun log() {
+        Log.d(TAG, "onResume: **********3${aaa(1,2)}")
+    }
+
+    private fun aaa(a:Int, b :Int):Int{
+        return a*b
+    }
 }

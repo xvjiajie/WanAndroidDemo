@@ -13,9 +13,7 @@ import androidx.core.content.ContextCompat
 import com.gyf.immersionbar.ktx.immersionBar
 import com.just.agentweb.*
 import com.xujiajie.wanandroid.R
-import com.xujiajie.wanandroid.base.BaseActivity
 import com.xujiajie.wanandroid.base.BaseDActivity
-import com.xujiajie.wanandroid.data.bean.HomeFragment1BannerBean
 import com.xujiajie.wanandroid.databinding.ActivityWebBinding
 import com.xujiajie.wanandroid.ext.color
 import com.xujiajie.wanandroid.ext.resourceId

@@ -24,13 +24,13 @@ import com.xujiajie.wanandroid.utils.Resource
 import com.xujiajie.wanandroid.utils.ToastUtils
 import com.xujiajie.wanandroid.vm.VMHomeFragment1
 import com.youth.banner.indicator.CircleIndicator
-import com.youth.banner.listener.OnBannerListener
 
 /**
  * 创建日期 2020/9/24
  * 描述：
  */
 class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
+
     override fun getContentLayout(): Int {
         return R.layout.fragment_home_1
     }
@@ -165,11 +165,12 @@ class HomeFragment1 : BaseMFragment<VMHomeFragment1, FragmentHome1Binding>() {
                                 .setIndicatorWidth(
                                     it1.dp2px(8F),
                                     it1.dp2px(8F)
-                                ).setOnBannerListener(object :OnBannerListener<String>{
-                                    override fun OnBannerClick(data: String?, position: Int) {
-                                        WebActivity.start(it1,it.banner[position].url)
-                                    }
-                                })
+                                ).setOnBannerListener { _, position ->
+                                    WebActivity.start(
+                                        it1,
+                                        it.banner[position].url
+                                    )
+                                }
                                 .start()
                         };
                     }
